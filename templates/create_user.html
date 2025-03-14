@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">ایحاد کاربر</h1>
+        <form method="POST" class="mx-auto" style="max-width: 400px;">
+            <input type="text" name="username" placeholder="نام کاربری" class="form-control mb-3" required>
+            <input type="password" name="password" placeholder="رمز عبور" class="form-control mb-3" required>
+            <input type="email" name="email" placeholder="ایمیل" class="form-control mb-3" required>
+            <input type="text" name="full_name" placeholder="نام کامل" class="form-control mb-3" required>
+            <input type="text" name="phone" placeholder="تلفن" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-primary w-100">ایجاد</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">بازگشت</a>
+        </div>
+    </div>
+</body>
+</html>

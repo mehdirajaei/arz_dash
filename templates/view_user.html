@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Data for {{ user.full_name }}</h1>
+        <div class="text-center mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">بازگشت</a>
+        </div>
+
+        <!-- Display Entered Data -->
+        <h2 class="mb-3">مقادیر وارد شده</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>آیتم</th>
+                    <th>مقدار</th>
+                    <th>مستند</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(1, persian_items|length + 1) %}
+                    <tr>
+                        <td>{{ persian_items[i - 1] }}</td>
+                        <td>{{ data_dict[i].value if data_dict.get(i) else 'خالی' }}</td>
+                        <td>
+                            {% if data_dict.get(i) and data_dict[i].document_path %}
+                                <a href="{{ url_for('static', filename='uploads/' + data_dict[i].document_path) }}" download class="btn btn-sm btn-outline-primary">
+                                    دانلود
+                                </a>
+                            {% else %}
+                                بدون مستند
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Display Comments -->
+        <h2 class="mb-3">نظرات</h2>
+        <div class="list-group">
+            {% for comment in comments %}
+                <div class="list-group-item">
+                    <!-- Display Comment Source (Admin or User) -->
+                    {% if comment.is_admin_comment %}
+                        <h5>نظر ادمین:</h5>
+                    {% else %}
+                        <h5>نظر کاربر:</h5>
+                    {% endif %}
+                    <p>{{ comment.admin_comment }}</p>
+
+                    <!-- Display User Response (if any) -->
+                    {% if comment.user_response %}
+                        <h5>پاسخ کاربر:</h5>
+                        <p>{{ comment.user_response }}</p>
+                    {% else %}
+                        <p class="text-muted">بدون پاسخ</p>
+                    {% endif %}
+
+                    <!-- Edit and Delete Buttons (for Admin) -->
+                    <div class="mt-2">
+                        <a href="{{ url_for('edit_comment', comment_id=comment.id) }}" class="btn btn-sm btn-warning">ویرایش</a>
+                        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" class="btn btn-sm btn-danger">حذف</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
